@@ -16,8 +16,6 @@ describe NiftyScope do
   end
 
   it 'calls appropriate scope method' do
-    count = @deers.count
-    puts "count was: #{count}"
-    expect(count).to eq(1)
+    expect(@deers.count).to eq(1)
   end
 end
