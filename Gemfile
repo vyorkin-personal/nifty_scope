@@ -1,4 +1,13 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in nifty_scope.gemspec
 gemspec
+
+group :test, :development do
+  gem 'pre-commit'
+  gem 'cane'
+end
+
+group :development do
+  gem 'byebug'
+  gem 'pry-byebug'
+end
