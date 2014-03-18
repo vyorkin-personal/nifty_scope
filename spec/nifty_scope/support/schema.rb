@@ -5,6 +5,7 @@ ActiveRecord::Schema.define do
     t.string :name
     t.integer :age
     t.integer :weight
+    t.boolean :dead, null: false, default: false
 
     t.timestamps
   end
