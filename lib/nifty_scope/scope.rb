@@ -13,7 +13,7 @@ module NiftyScope
         scope_method = scope_method_for(key.to_sym)
         ensure_scope_responds_to(scope_method)
 
-        @scope = eval_scope(scope_method, scope_args(value))
+        @scope = eval_scope(scope_method, value)
       end
 
       @scope
@@ -23,9 +23,15 @@ module NiftyScope
 
     def eval_scope(method, args)
       if method.is_a?(Proc)
-        @scope.instance_exec(*args, &method)
+        if method.arity > 0
+          @scope.instance_exec(*args, &method)
+        elsif args
+          @scope.instance_exec(&method)
+        else
+          @scope
+        end
       else
-        @scope.send(method, *args)
+        @scope.send(method, *scope_args(args))
       end
     end
 

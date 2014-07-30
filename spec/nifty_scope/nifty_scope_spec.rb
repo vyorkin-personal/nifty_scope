@@ -1,3 +1,4 @@
+require 'pry-byebug'
 require 'spec_helper'
 
 describe NiftyScope do
@@ -30,7 +31,7 @@ describe NiftyScope do
     end
     let!(:paramsfull_deers) do
       Deer.nifty_scope(params, mapping: {
-        is_alive: ->(value) { value ? alive : load }
+        is_alive: ->(value) { value ? alive : dead }
       })
     end
 
@@ -54,7 +55,7 @@ describe NiftyScope do
       end
 
       it 'should return two alive deers with parameterless mapping' do
-        expect(paramsless_deers.count).to eq(1)
+        expect(paramsless_deers.count).to eq(3)
       end
     end
   end
