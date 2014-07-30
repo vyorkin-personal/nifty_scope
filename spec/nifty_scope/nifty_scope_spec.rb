@@ -22,6 +22,43 @@ describe NiftyScope do
     end
   end
 
+  context 'with mappings to boolean scope' do
+    let!(:paramsless_deers) do
+      Deer.nifty_scope(params, mapping: {
+        is_alive: -> { alive }
+      })
+    end
+    let!(:paramsfull_deers) do
+      Deer.nifty_scope(params, mapping: {
+        is_alive: ->(value) { value ? alive : load }
+      })
+    end
+
+    describe 'show me alive deers' do
+      let!(:params) { { is_alive: true } }
+
+      it 'should return two alive deers with parameterfull mapping' do
+        expect(paramsfull_deers.count).to eq(2)
+      end
+
+      it 'should return two alive deers with parameterless mapping' do
+        expect(paramsless_deers.count).to eq(2)
+      end
+    end
+
+    describe 'show me dead deers' do
+      let!(:params) { { is_alive: false} }
+
+      it 'should return two alive deers with parameterfull mapping' do
+        expect(paramsfull_deers.count).to eq(1)
+      end
+
+      it 'should return two alive deers with parameterless mapping' do
+        expect(paramsless_deers.count).to eq(1)
+      end
+    end
+  end
+
   context 'with parameterless scope' do
     let!(:params) { { :dead => true } }
 
