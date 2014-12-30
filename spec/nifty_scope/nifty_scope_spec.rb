@@ -61,7 +61,8 @@ describe NiftyScope do
   end
 
   context 'with parameterless scope' do
-    let!(:params) { { :dead => true } }
+    let(:params) { { :dead => true } }
+    let(:false_params) { { :dead => false } }
 
     context 'when mapping is specified' do
       let!(:deers) { Deer.nifty_scope(params, only: [:dead]) }
@@ -73,6 +74,14 @@ describe NiftyScope do
 
     context 'when mapping is not specified' do
       let!(:deers) { Deer.nifty_scope(params) }
+
+      it 'calls appropriate scope method' do
+        expect(deers.count).to eq(1)
+      end
+    end
+
+    context 'when false' do
+      let!(:deers) { Deer.nifty_scope(false_params, only: [:dead]) }
 
       it 'calls appropriate scope method' do
         expect(deers.count).to eq(1)
